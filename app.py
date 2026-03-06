@@ -1,3 +1,5 @@
+# --- Google Search Console 確認用（この1行を1行目に！） ---
+st.markdown('<meta name="google-site-verification" content="9z3A-fzdRLWmFx2ZNkg47ac0I99VffSQ35i9XERd7v4" />', unsafe_allow_html=True)
 import streamlit as st
 from supabase import create_client
 from datetime import datetime
