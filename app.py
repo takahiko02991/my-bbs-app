@@ -16,14 +16,14 @@ def get_trip_id():
     date_str = datetime.now().strftime("%Y-%m-%d")
     return hashlib.sha256(date_str.encode()).hexdigest()[:8]
 
-st.title("(^ o ^)ノシ 休サイト (β)")
+st.title("休サイト ※なかよくしろよ")
 
 # --- 投稿フォーム ---
 with st.form("bbs_post", clear_on_submit=True):
     col1, col2 = st.columns([0.7, 0.3])
     with col1:
         # プレースホルダーで「名無しさん」を提案
-        input_name = st.text_input("名前", placeholder="風吹けば恋")
+        input_name = st.text_input("名前", placeholder="風吹けば恋さん")
     with col2:
         st.write(f"あなたのID: `{get_trip_id()}`")
         
@@ -32,7 +32,7 @@ with st.form("bbs_post", clear_on_submit=True):
     
     if submitted and message:
         # 【重要】名前が空なら「名無しさん」にするロジック
-        final_name = input_name if input_name else "名無しさん"
+        final_name = input_name if input_name else "風吹けば恋さん"
         
         # 新しく作った「bbs_posts」テーブルにインサート！
         supabase.table("bbs_posts").insert({
