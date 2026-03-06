@@ -105,7 +105,7 @@ def show_qr(url):
     st.image(buf, caption="スマホで読み取って参加！", width=150)
 
 # --- ヘッダー表示 ---
-st.title("休サイト ※なかよくしろよ")
+st.title("休サイト ※なかよくしてね(^ O ^)ﾉｼ)")
 app_url = "https://my-bbs-app-6heicw938faphfqgz4ayw5.streamlit.app"
 st.caption(f"現在のID: `{get_trip_id()}` | [URLコピー]({app_url})")
 show_qr(app_url)
