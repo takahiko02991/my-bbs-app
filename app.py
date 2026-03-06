@@ -13,7 +13,8 @@ st.set_page_config(page_title="匿名掲示板　休サイト", page_icon="💬"
 # --- アプリのURLを表示する（一番上） ---
 st.caption("📱 この掲示板のURL（友達に送る用）:")
 st.code("https://my-bbs-app.streamlit.app/") # ここを自分のアプリのURLに書き換えてください
-
+# QRコード画像を表示する場合
+st.image("qr_code.png", caption="スマホで読み取って参加！", width=150)
 # もし自動で現在のURLを表示したい場合はこちら（少し高度です）
 # st.info(f"現在のURL: {st.get_option('browser.serverAddress')}")
 # 匿名ID生成（日付ごとに変わる「今日の日付」仕様）
