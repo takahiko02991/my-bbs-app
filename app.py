@@ -5,7 +5,7 @@ import pytz
 import hashlib
 import qrcode
 from io import BytesIO
-
+import re
 # 1. 接続設定
 url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
@@ -52,7 +52,29 @@ st.code(app_url)
 
 # ここでQRコードを表示！
 show_qr(app_url)
+content = post['content']
+        
+# 「>>1」や「>>10」という文字を探して、緑色の太字にする
+# HTMLの<a>タグを使って、あとでリンクにできるように準備します
+def link_repl(match):
+    num = match.group(1)
+    return f'<a href="#p{num}" style="color: #1e90ff; font-weight: bold; text-decoration: none;">>>{num}</a>'
 
+# 正規表現で置換
+converted_content = re.sub(r'>>(\d+)', link_repl, content)
+
+with st.container(border=True):
+    # 앵커（アンカー）の飛び先として IDを付与
+    st.markdown(f'<div id="p{i+1}"></div>', unsafe_allow_html=True)
+    
+    # 名前・時間・IDのヘッダー
+    st.markdown(
+        f"**{i+1}** ：<font color='#117711'>**{post['name']}**</font> ：{time_str} ID:{uid} **({id_counts[uid]})**", 
+        unsafe_allow_html=True
+    )
+    
+            # 本文を表示（HTMLを許可することでメンションに色がつく）
+            st.markdown(converted_content, unsafe_allow_html=True)
 
 # --- ① スレッド情報の取得 ---
 # 全投稿から thread_title を取得して、各スレの「最新投稿日時」と「レス数」を計算
