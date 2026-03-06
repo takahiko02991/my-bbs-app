@@ -12,8 +12,7 @@ import re
 url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 supabase = create_client(url, key)
-# --- Google Search Console 確認用 ---
-<meta name="google-site-verification" content="9z3A-fzdRLWmFx2ZNkg47ac0I99VffSQ35i9XERd7v4" />
+
 st.set_page_config(page_title="休サイト", page_icon="💬", layout="centered")
 # ページタイトルをしっかり設定する（これが検索結果のタイトルになります）
 st.set_page_config(page_title="休サイト - 休憩の匿名掲示板", page_icon="💬")
