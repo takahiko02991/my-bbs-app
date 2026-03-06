@@ -28,6 +28,38 @@ st.set_page_config(page_title="休サイト - 休憩の匿名掲示板", page_ic
 
 # サイトの説明文（メタディスクリプション風）を画面上に書く
 st.write("休サイトは、誰でも気軽に書き込める完全匿名の掲示板アプリです。")
+
+# --- 管理者認証システム ---
+ADMIN_PASSWORD = "your_secret_password" # ここに好きなパスワードを設定
+
+if "admin_mode" not in st.session_state:
+    st.session_state.admin_mode = False
+
+with st.sidebar:
+    st.title("🛠️ 設定")
+    if not st.session_state.admin_mode:
+        input_pass = st.text_input("管理者パスワード", type="password")
+        if st.button("ログイン"):
+            if input_pass == ADMIN_PASSWORD:
+                st.session_state.admin_mode = True
+                st.rerun()
+            else:
+                st.error("パスワードが違います")
+    else:
+        st.success("管理者モード実行中")
+        if st.button("ログアウト"):
+            st.session_state.admin_mode = False
+            st.rerun()
+
+# --- メイン画面の切り替え ---
+if st.session_state.admin_mode:
+    st.header("⚙️ 管理者専用：投稿管理")
+    # ここに投稿一覧と削除ボタンを表示するコードを書く
+    # 例: res = supabase.table("bbs_posts").select("*").execute() ...
+else:
+    # ここにいつもの掲示板コード（スレッド表示など）を書く
+    pass
+
 # 匿名ID生成
 def get_trip_id():
     date_str = datetime.now().strftime("%Y-%m-%d")
