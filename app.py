@@ -42,7 +42,9 @@ def show_qr(url):
     buf = BytesIO()
     img.save(buf, format="PNG")
     st.image(buf, caption="スマホで読み取って参加！", width=150)
-
+# --- ヘッダー ---
+st.title("休サイト ※なかよくしろよ")
+st.caption(f"現在のID: `{get_trip_id()}` | [URLコピー](https://my-bbs-app.streamlit.app/)")
 # --- 実際の表示部分 ---
 app_url = "https://my-bbs-app-6heicw938faphfqgz4ayw5.streamlit.app" # あなたのアプリのURL
 st.caption("📱 この掲示板のURL:")
@@ -50,9 +52,7 @@ st.code(app_url)
 
 # ここでQRコードを表示！
 show_qr(app_url)
-# --- ヘッダー ---
-st.title("休サイト ※なかよくしろよ")
-st.caption(f"現在のID: `{get_trip_id()}` | [URLコピー](https://my-bbs-app.streamlit.app/)")
+
 
 # --- ① スレッド情報の取得 ---
 # 全投稿から thread_title を取得して、各スレの「最新投稿日時」と「レス数」を計算
