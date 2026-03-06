@@ -13,7 +13,11 @@ key = st.secrets["SUPABASE_KEY"]
 supabase = create_client(url, key)
 
 st.set_page_config(page_title="休サイト", page_icon="💬", layout="centered")
+# ページタイトルをしっかり設定する（これが検索結果のタイトルになります）
+st.set_page_config(page_title="休サイト - 休憩の匿名掲示板", page_icon="💬")
 
+# サイトの説明文（メタディスクリプション風）を画面上に書く
+st.write("休サイトは、誰でも気軽に書き込める完全匿名の掲示板アプリです。")
 # 匿名ID生成
 def get_trip_id():
     date_str = datetime.now().strftime("%Y-%m-%d")
