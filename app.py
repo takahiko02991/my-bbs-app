@@ -14,19 +14,22 @@ supabase = create_client(url, key)
 st.set_page_config(page_title="休サイト", page_icon="💬", layout="centered")
 
 # 匿名ID生成
-# 修正版：人によって変わるID生成
+# 修正版：もっとバラバラになるID生成
 def get_trip_id():
-    # 1. 今日の日付
+    # 1. 今日の日付（これは日付でリセットするために残す）
     date_str = datetime.now().strftime("%Y-%m-%d")
     
-    # 2. ブラウザの情報（Streamlitの機能で取得）
-    # ※少し特殊な書き方ですが、これで「端末の違い」を混ぜ込めます
-    ua = st.context.headers.get("User-Agent", "unknown")
+    # 2. セッションID（アクセスした人ごとに発行されるランダムなID）
+    # これを使えば、たとえ同じiPhone同士でも、アクセスした瞬間に別々のIDが割り振られます
+    if "user_secret_key" not in st.session_state:
+        # 初めてアクセスした時にランダムな文字列を作る
+        import random
+        import string
+        st.session_state.user_secret_key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
     
-    # 日付とブラウザ情報を合体させてハッシュ化
-    combined = date_str + ua
+    # 日付と、その人専用の秘密キーを合体！
+    combined = date_str + st.session_state.user_secret_key
     return hashlib.sha256(combined.encode()).hexdigest()[:8]
-
 
 # --- QRコードを生成する関数 ---
 def show_qr(url):
