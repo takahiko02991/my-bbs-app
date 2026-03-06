@@ -24,7 +24,28 @@ def get_trip_id():
     # 日付とブラウザ情報を合体させてハッシュ化
     combined = date_str + ua
     return hashlib.sha256(combined.encode()).hexdigest()[:8]
+import qrcode
+from io import BytesIO
 
+# --- QRコードを生成する関数 ---
+def show_qr(url):
+    qr = qrcode.QRCode(version=1, box_size=10, border=2)
+    qr.add_data(url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    # 画像をメモリに保存してStreamlitで表示できる形式にする
+    buf = BytesIO()
+    img.save(buf, format="PNG")
+    st.image(buf, caption="スマホで読み取って参加！", width=150)
+
+# --- 実際の表示部分 ---
+app_url = "https://my-bbs-app.streamlit.app/" # あなたのアプリのURL
+st.caption("📱 この掲示板のURL:")
+st.code(app_url)
+
+# ここでQRコードを表示！
+show_qr(app_url)
 # --- ヘッダー ---
 st.title("休サイト ※なかよくしろよ")
 st.caption(f"現在のID: `{get_trip_id()}` | [URLコピー](https://my-bbs-app.streamlit.app/)")
