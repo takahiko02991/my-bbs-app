@@ -6,6 +6,12 @@ import hashlib
 import qrcode
 from io import BytesIO
 import re
+
+
+# 1. 接続設定
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
+supabase = create_client(url, key)
 # --- Google Search Console 確認用 ---
 st.markdown(
     """
@@ -15,12 +21,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# 1. 接続設定
-url = st.secrets["SUPABASE_URL"]
-key = st.secrets["SUPABASE_KEY"]
-supabase = create_client(url, key)
-
 st.set_page_config(page_title="休サイト", page_icon="💬", layout="centered")
 # ページタイトルをしっかり設定する（これが検索結果のタイトルになります）
 st.set_page_config(page_title="休サイト - 休憩の匿名掲示板", page_icon="💬")
