@@ -12,9 +12,18 @@ supabase = create_client(url, key)
 st.set_page_config(page_title="休サイト", page_icon="💬", layout="centered")
 
 # 匿名ID生成
+# 修正版：人によって変わるID生成
 def get_trip_id():
+    # 1. 今日の日付
     date_str = datetime.now().strftime("%Y-%m-%d")
-    return hashlib.sha256(date_str.encode()).hexdigest()[:8]
+    
+    # 2. ブラウザの情報（Streamlitの機能で取得）
+    # ※少し特殊な書き方ですが、これで「端末の違い」を混ぜ込めます
+    ua = st.context.headers.get("User-Agent", "unknown")
+    
+    # 日付とブラウザ情報を合体させてハッシュ化
+    combined = date_str + ua
+    return hashlib.sha256(combined.encode()).hexdigest()[:8]
 
 # --- ヘッダー ---
 st.title("休サイト ※なかよくしろよ")
