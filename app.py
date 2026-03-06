@@ -78,7 +78,18 @@ if "current_thread" not in st.session_state:
 
 # --- スレッド一覧画面 ---
 if st.session_state.current_thread is None:
-    st.subheader("🧵 スレッド一覧")
+    # --- サイドバーにスレッド一覧を表示（PCなら常に表示、スマホならメニュー内） ---
+    with st.sidebar:
+        st.title("🧵 スレッド一覧")
+        for title, info in sorted_threads:
+            if st.button(f"{title} ({info['count']})", key=f"side_{title}", use_container_width=True):
+                st.session_state.current_thread = title
+                st.rerun()
+        
+        st.divider()
+        if st.button("🏠 トップに戻る", use_container_width=True):
+            st.session_state.current_thread = None
+            st.rerun()
     
     # 新規スレッド作成
     with st.expander("➕ 新しいスレッドを立てる"):
