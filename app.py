@@ -10,7 +10,12 @@ key = st.secrets["SUPABASE_KEY"]
 supabase = create_client(url, key)
 
 st.set_page_config(page_title="匿名掲示板　休サイト", page_icon="💬")
+# --- アプリのURLを表示する（一番上） ---
+st.caption("📱 この掲示板のURL（友達に送る用）:")
+st.code("https://my-bbs-app.streamlit.app/") # ここを自分のアプリのURLに書き換えてください
 
+# もし自動で現在のURLを表示したい場合はこちら（少し高度です）
+# st.info(f"現在のURL: {st.get_option('browser.serverAddress')}")
 # 匿名ID生成（日付ごとに変わる「今日の日付」仕様）
 def get_trip_id():
     date_str = datetime.now().strftime("%Y-%m-%d")
