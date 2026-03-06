@@ -58,7 +58,9 @@ content = post['content']
 # HTMLの<a>タグを使って、あとでリンクにできるように準備します
 def link_repl(match):
     num = match.group(1)
-    return f'<a href="#p{num}" style="color: #1e90ff; font-weight: bold; text-decoration: none;">>>{num}</a>'
+    # 修正ポイント：hrefの中身をターゲットに合わせ、
+    # _selfを指定することで同じページ内で動くようにします
+    return f'<a href="#p{num}" target="_self" style="color: #1e90ff; font-weight: bold; text-decoration: none;">>>{num}</a>'
 
 # 正規表現で置換
 converted_content = re.sub(r'>>(\d+)', link_repl, content)
