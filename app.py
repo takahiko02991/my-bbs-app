@@ -104,13 +104,25 @@ else:
     # レス表示（2chっぽく古い順から表示）
     res = supabase.table("bbs_posts").select("*").eq("thread_title", st.session_state.current_thread).order("created_at", desc=False).execute()
     
+# 1. まずスレッド内の各IDの登場回数を数える
+    id_counts = {}
+    for post in res.data:
+        uid = post['user_id']
+        id_counts[uid] = id_counts.get(uid, 0) + 1
+
+    # 2. 投稿を表示する
     for i, post in enumerate(res.data):
         dt = datetime.fromisoformat(post['created_at'].replace('Z', '+00:00')).astimezone(pytz.timezone('Asia/Tokyo'))
         time_str = dt.strftime('%Y/%m/%d %H:%M:%S')
         
-            # 枠線をつけて表示
+        uid = post['user_id']
+        # そのIDがこれまでに何回登場したか取得
+        count_num = id_counts[uid]
+        
         with st.container(border=True):
-            # ↓ここがエラーの起きていた場所です。左側のスペースを揃えています。
-            st.markdown(f"**{i+1}** ：<font color='#117711'>**{post['name']}**</font> ：{time_str} ID:{post['user_id']}", unsafe_allow_html=True)
+            # IDの横に (回数/全レス数) を表示する2chスタイル
+            st.markdown(
+                f"**{i+1}** ：<font color='#117711'>**{post['name']}**</font> ：{time_str} ID:{uid} **({count_num})**", 
+                unsafe_allow_html=True
+            )
             st.write(post['content'])
-
