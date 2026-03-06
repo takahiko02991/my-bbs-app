@@ -137,18 +137,25 @@ if st.session_state.current_thread is None:
                 st.rerun()
 
     with st.expander("➕ 新しいスレッドを立てる"):
-        with st.form("new_thread_form"):
-            new_t = st.text_input("スレッド名")
-            name = st.text_input("名前", placeholder="風吹けば恋さん")
-            msg = st.text_area("最初の書き込み")
-            if st.form_submit_button("スレッド作成"):
-                if new_t and msg:
-                    supabase.table("bbs_posts").insert({
-                        "thread_title": new_t, "name": name if name else "風吹けば恋さん",
-                        "content": msg, "user_id": get_trip_id()
-                    }).execute()
-                    st.session_state.current_thread = new_t
-                    st.rerun()
+    with st.form("new_thread_form"):
+        # max_chars で入力欄そのものに制限をかける（バッファ対策）
+        new_t = st.text_input("スレッド名", max_chars=50) 
+        name = st.text_input("名前", placeholder="風吹けば恋さん", max_chars=20)
+        msg = st.text_area("最初の書き込み", max_chars=1000) 
+        
+        if st.form_submit_button("スレッド作成"):
+            # strip() を使うことで「スペースだけの投稿」も弾く
+            if new_t.strip() and msg.strip():
+                supabase.table("bbs_posts").insert({
+                    "thread_title": new_t.strip(), 
+                    "name": name.strip() if name.strip() else "風吹けば恋さん",
+                    "content": msg.strip(), 
+                    "user_id": get_trip_id()
+                }).execute()
+                st.session_state.current_thread = new_t.strip()
+                st.rerun()
+            else:
+                st.error("スレッド名と最初の書き込みを入力してください（空白のみは不可）")
 
     for title, info in sorted_threads:
         if st.button(f"{title} ({info['count']})", use_container_width=True):
