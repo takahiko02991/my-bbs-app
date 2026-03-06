@@ -1,6 +1,4 @@
 import streamlit as st
-# --- Google Search Console 確認用（この1行を1行目に！） ---
-st.markdown('<meta name="google-site-verification" content="9z3A-fzdRLWmFx2ZNkg47ac0I99VffSQ35i9XERd7v4" />', unsafe_allow_html=True)
 from supabase import create_client
 from datetime import datetime
 import pytz
@@ -9,8 +7,17 @@ import qrcode
 from io import BytesIO
 import re
 
+# 1. 一番最初に設定を書く（1回だけ！）
+st.set_page_config(
+    page_title="休サイト - 究極の匿名掲示板", 
+    page_icon="💬", 
+    layout="centered"
+)
 
-# 1. 接続設定
+# 2. その直後に Google の確認用タグを入れる
+st.markdown('<meta name="google-site-verification" content="9z3A-fzdRLWmFx2ZNkg47ac0I99VffSQ35i9XERd7v4" />', unsafe_allow_html=True)
+
+# 3. 接続設定など
 url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 supabase = create_client(url, key)
