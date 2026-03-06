@@ -30,8 +30,7 @@ st.set_page_config(page_title="休サイト - 休憩の匿名掲示板", page_ic
 st.write("休サイトは、誰でも気軽に書き込める完全匿名の掲示板アプリです。")
 
 # --- 管理者認証システム ---
-ADMIN_PASSWORD = "fuck_you12345" # ここに好きなパスワードを設定
-
+ADMIN_PASSWORD = st.secrets["ADMIN_PASSWORD"]
 if "admin_mode" not in st.session_state:
     st.session_state.admin_mode = False
 
