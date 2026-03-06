@@ -6,6 +6,15 @@ import hashlib
 import qrcode
 from io import BytesIO
 import re
+# --- Google Search Console 確認用 ---
+st.markdown(
+    """
+    <head>
+    <meta name="google-site-verification" content="9z3A-fzdRLWmFx2ZNkg47ac0I99VffSQ35i9XERd7v4" />
+    </head>
+    """,
+    unsafe_allow_html=True
+)
 
 # 1. 接続設定
 url = st.secrets["SUPABASE_URL"]
