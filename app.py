@@ -44,7 +44,7 @@ def show_qr(url):
     st.image(buf, caption="スマホで読み取って参加！", width=150)
 
 # --- 実際の表示部分 ---
-app_url = "https://my-bbs-app-6heicw938faphfqgz4ayw5.streamlit.app"/ # あなたのアプリのURL
+app_url = "https://my-bbs-app-6heicw938faphfqgz4ayw5.streamlit.app" # あなたのアプリのURL
 st.caption("📱 この掲示板のURL:")
 st.code(app_url)
 
