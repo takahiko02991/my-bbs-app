@@ -3,6 +3,8 @@ from supabase import create_client
 from datetime import datetime
 import pytz
 import hashlib
+import qrcode
+from io import BytesIO
 
 # 1. 接続設定
 url = st.secrets["SUPABASE_URL"]
@@ -24,8 +26,7 @@ def get_trip_id():
     # 日付とブラウザ情報を合体させてハッシュ化
     combined = date_str + ua
     return hashlib.sha256(combined.encode()).hexdigest()[:8]
-import qrcode
-from io import BytesIO
+
 
 # --- QRコードを生成する関数 ---
 def show_qr(url):
