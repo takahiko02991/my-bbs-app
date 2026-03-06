@@ -73,8 +73,8 @@ with st.container(border=True):
         unsafe_allow_html=True
     )
     
-            # 本文を表示（HTMLを許可することでメンションに色がつく）
-            st.markdown(converted_content, unsafe_allow_html=True)
+    # 本文を表示（HTMLを許可することでメンションに色がつく）
+    st.markdown(converted_content, unsafe_allow_html=True)
 
 # --- ① スレッド情報の取得 ---
 # 全投稿から thread_title を取得して、各スレの「最新投稿日時」と「レス数」を計算
