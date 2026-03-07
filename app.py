@@ -145,7 +145,7 @@ if st.session_state.current_thread is None:
                 st.rerun()
 
     with st.expander("➕ 新しいスレッドを立てる"):
-    with st.form("new_thread_form"):
+    with st.form("new_thread_form", clear_on_submit=True):
         # max_chars で入力欄そのものに制限をかける（バッファ対策）
         new_t = st.text_input("スレッド名", max_chars=50) 
         name = st.text_input("名前", placeholder="風吹けば恋さん", max_chars=20)
