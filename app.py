@@ -6,7 +6,15 @@ import hashlib
 import qrcode
 from io import BytesIO
 import re
+import streamlit as st
+from streamlit_autorefresh import st_autorefresh # これを追加
 
+# --- ページ設定のすぐ下あたりに追加 ---
+# 5秒（5000ミリ秒）ごとに画面を自動更新する
+# これを入れるだけで、誰かの投稿が5秒以内に全員の画面に反映されます！
+st_autorefresh(interval=5000, key="bbs_refresh")
+
+# (ここから下に、いつもの掲示板のコードが続く...)
 # 1. 一番最初に設定を書く（1回だけ！）
 st.set_page_config(
     page_title="休サイト - 究極の匿名掲示板", 
