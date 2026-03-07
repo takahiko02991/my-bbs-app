@@ -178,29 +178,26 @@ else:
 
     st.header(f"🔥 {st.session_state.current_thread}")
 
-     with st.expander("💬 このスレに書き込む"):
-        # clear_on_submit=True を追加（念のため）
-        with st.form("post_in_thread", clear_on_submit=True):
-            # key を指定するのが一番のポイント！
-            input_name = st.text_input("名前", placeholder="風吹けば恋さん", key="input_name_key")
-            msg = st.text_area("本文", key="input_msg_key")
-            
-            if st.form_submit_button("書き込む"):
-                if msg.strip(): # 空白文字だけの投稿も防ぐ
-                    supabase.table("bbs_posts").insert({
-                        "thread_title": st.session_state.current_thread,
-                        "name": input_name if input_name else "風吹けば恋さん",
-                        "content": msg.strip(), 
-                        "user_id": get_trip_id()
-                    }).execute()
-                    
-                    # ✅ ここが重要！ rerun する前に state を直接空にする
-                    st.session_state["input_msg_key"] = ""
-                    # 名前も消したい場合は↓も追加。残したいなら書かなくてOK
-                    # st.session_state["input_name_key"] = ""
-                    # 2. 通知を出す（アイコンも付けられます！）
-                    st.toast("書き込みが完了しました！", icon="✅")
-                    st.rerun()
+with st.expander("💬 このスレに書き込む"):
+    with st.form("post_in_thread", clear_on_submit=True):
+        input_name = st.text_input("名前", placeholder="風吹けば恋さん", key="input_name_key")
+        msg = st.text_area("本文", key="input_msg_key")
+        
+        if st.form_submit_button("書き込む"):
+            if msg.strip():
+                supabase.table("bbs_posts").insert({
+                    "thread_title": st.session_state.current_thread,
+                    "name": input_name if input_name else "風吹けば恋さん",
+                    "content": msg.strip(), 
+                    "user_id": get_trip_id()
+                }).execute()
+                
+                # メモリを空にして通知を出し、再起動
+                st.session_state["input_msg_key"] = ""
+                st.toast("書き込みが完了しました！", icon="✅")
+                st.rerun()
+            else:
+                st.error("本文を入力してください")
 
     # レス表示
     res = supabase.table("bbs_posts").select("*").eq("thread_title", st.session_state.current_thread).order("created_at", desc=False).execute()
