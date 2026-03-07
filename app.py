@@ -96,7 +96,7 @@ if st.session_state.admin_mode:
 
 # 【B】一般ユーザーモードの時
 else:
-    st.title("休サイト ※なかよくしてね(^ O ^)ﾉｼ)")
+    st.title("休サイト なかよくしてね(^ O ^)ﾉｼ)")
     st.caption(f"現在のID: `{get_trip_id()}`")
 
     # スレッド一覧をDBから集計して取得
