@@ -198,7 +198,8 @@ else:
                     st.session_state["input_msg_key"] = ""
                     # 名前も消したい場合は↓も追加。残したいなら書かなくてOK
                     # st.session_state["input_name_key"] = ""
-                    
+                    # 2. 通知を出す（アイコンも付けられます！）
+                    st.toast("書き込みが完了しました！", icon="✅")
                     st.rerun()
 
     # レス表示
